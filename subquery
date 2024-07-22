@@ -1,0 +1,32 @@
+--select dentro de outro select (é kk)
+
+
+/*
+selct coluna
+from tabela 
+where coluna operador (select coluna from tabela)
+*/
+--monte um relatório, de todos os produtos cadastrados que tem preço de venda acima da média
+select *
+from Production.Product
+where Production.Product.ListPrice > (select avg(ListPrice) from Production.Product)
+
+-- encontrar nome dos funcionarios que tem cargo de 'design engineer'
+-- inner join
+select PP.BusinessEntityID, PP.FirstName, HE.JobTitle
+from Person.Person PP
+inner join HumanResources.Employee HE on HE.BusinessEntityID = PP.BusinessEntityID
+where HE.JobTitle = 'Design Engineer';
+
+--subQuery
+select FirstName
+from Person.Person
+where BusinessEntityID in (select BusinessEntityID from HumanResources.Employee where JobTitle = 'Design Engineer');
+
+--encontrar todos os endereços que estão no estado de 'Alberta'
+select *
+from Person.Address
+where StateProvinceID in (
+	select StateProvinceID
+	from Person.StateProvince
+	where Name = 'Alberta');
